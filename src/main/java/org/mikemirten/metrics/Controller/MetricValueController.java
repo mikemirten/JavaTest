@@ -8,6 +8,8 @@ import org.mikemirten.metrics.JsonDocument.JsonErrorResponse;
 import org.mikemirten.metrics.JsonDocument.JsonRequest;
 import org.mikemirten.metrics.JsonDocument.JsonResponse;
 import org.mikemirten.metrics.Repository.MetricRepository;
+import org.mikemirten.metrics.Domain.Service.MetricStatistics.MetricStatistics;
+import org.mikemirten.metrics.Domain.Service.MetricStatistics.StatisticsCalculator;
 import org.mikemirten.metrics.Service.MetricValueCreator.MetricValueCreator;
 import org.mikemirten.metrics.Service.MetricValueCreator.MetricValueDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +30,20 @@ public class MetricValueController
      */
     private final MetricValueCreator metricValueCreator;
 
+    /**
+     * Statistics' calculator
+     */
+    private final StatisticsCalculator statisticsCalculator;
+
     @Autowired
-    public MetricValueController(MetricRepository metricRepository, MetricValueCreator metricValueCreator)
-    {
-        this.metricRepository   = metricRepository;
-        this.metricValueCreator = metricValueCreator;
+    public MetricValueController(
+        MetricRepository     metricRepository,
+        MetricValueCreator   metricValueCreator,
+        StatisticsCalculator statisticsCalculator
+    ) {
+        this.metricRepository     = metricRepository;
+        this.metricValueCreator   = metricValueCreator;
+        this.statisticsCalculator = statisticsCalculator;
     }
 
     /**
@@ -71,6 +82,16 @@ public class MetricValueController
         }
 
         return new JsonResponse(value);
+    }
+
+    @GetMapping("/metrics/{id}/statistics")
+    public JsonResponse statistics(@PathVariable Integer id)
+    {
+        Metric metric = resolveMetric(id);
+
+        MetricStatistics statistics = statisticsCalculator.calculate(metric);
+
+        return new JsonResponse(statistics);
     }
 
     /**

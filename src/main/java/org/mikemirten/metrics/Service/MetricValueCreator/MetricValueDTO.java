@@ -7,9 +7,9 @@ import javax.validation.constraints.NotNull;
 public class MetricValueDTO
 {
     @NotNull
-    private final Float value;
+    private final Double value;
 
-    public MetricValueDTO(@JsonProperty("value") Float value)
+    public MetricValueDTO(@JsonProperty("value") Double value)
     {
         this.value = value;
     }
@@ -19,7 +19,7 @@ public class MetricValueDTO
      *
      * @return float
      */
-    public Float getValue()
+    public Double getValue()
     {
         return value;
     }

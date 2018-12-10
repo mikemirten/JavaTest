@@ -14,7 +14,7 @@ public class MetricValue
     private Integer id;
 
     @Column
-    private Float value;
+    private Double value;
 
     @ManyToOne
     @JoinColumn(name = "metric_id", nullable = false)
@@ -23,7 +23,7 @@ public class MetricValue
 
     public MetricValue() {}
 
-    public MetricValue(Metric metric, Float value)
+    public MetricValue(Metric metric, Double value)
     {
         this.metric = metric;
         this.value  = value;
@@ -54,7 +54,7 @@ public class MetricValue
      *
      * @return Float
      */
-    public Float getValue()
+    public Double getValue()
     {
         return value;
     }
