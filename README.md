@@ -16,3 +16,5 @@ Make sure nothing using port 8080.
 
 Build and run application by: ```gradle bootRun``` command.
 The application should be accessible at 127.0.0.1:8080.
+
+Default user with ID **1** will be created at the application's start.
